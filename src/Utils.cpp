@@ -13,3 +13,13 @@ std::vector<std::string> split(const std::string &str, const std::string &delimi
     res.push_back(str.substr(pos_start));
     return res;
 }
+
+std::string ToLowercase(const std::string& Names)
+{
+    std::string new_str(Names);
+    for (std::string::iterator it = new_str.begin(); it != new_str.end(); it++)
+    {
+        tolower(*it);
+    }
+    return new_str;
+}

@@ -154,15 +154,15 @@ void    Server::readData(fd_set readfds)
     }
 }
 
-void    Server::runCommand(Client *client, std::string &msg)
+void    Server::runCommand(Client &client, std::string &msg)
 {
     std::vector<std::string> str = split(msg,"\r\n");
     for(std::vector<std::string>::iterator it = str.begin(); it != str.end()-1; ++it)
     {
-        std::cout <<"line: " << *it << "\n";
+        std::cout <<"line: " << *it << std::endl;
         size_t spacePos = (it->find(' ')  != std::string::npos) ? it->find(' ') : it->size();
         std::string command = it->substr(0, spacePos);
-        std::cout <<"cmd: " << command << "\n";
+        std::cout <<"cmd: " << command << std::endl;
         spacePos = (spacePos == it->size()) ? spacePos -1 : spacePos;
         if (cmds.find(command) != cmds.end())
             (this->*cmds.at(command))(*client, split(it->substr(spacePos + 1), " "));
@@ -176,7 +176,7 @@ void Server::sendServerToClient(Client &reciever, const std::string &message)
     {
         std::cerr << "Failed to send chat message between "
                   << "ircserv"
-                  << " -> " << reciever._nickname << "\n";
+                  << " -> " << reciever._nickname << std::endl;
     }
 }
 // channel ekle la buraya bakacaz
@@ -189,7 +189,7 @@ void Server::sendServerToChannel(const std::string &ChannelName, const std::stri
     {
         if (send((*client)->getSocketFd(), formattedMessage.c_str(), formattedMessage.length(), 0) == -1)
         {
-            std::cerr << "Failed to send chat message between " << ChannelName << " -> " << (*client)->_nick << "\n";
+            std::cerr << "Failed to send chat message between " << ChannelName << " -> " << (*client)->_nick << std::endl;
             continue;
         }
     }
@@ -209,7 +209,7 @@ void Server::sendClientToChannel(Client &sender, const std::string &ChannelName,
         {
             if (send((*client)->getSocketFd(), formattedMessage.c_str(), formattedMessage.length(), 0) == -1)
             {
-                std::cerr << "Failed to send chat message between " << sender._nickname << " -> " << (*client)->_nickname << "\n";
+                std::cerr << "Failed to send chat message between " << sender._nickname << " -> " << (*client)->_nickname << std::endl;
                 continue;
             }
         }

@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <netdb.h>
 #include "../inc/Utils.hpp"
+#include "../inc/Channel.hpp"
 
 class Server
 {
@@ -36,4 +37,36 @@ class Server
         void    sendServerToChannel(const std::string &ChannelName, const std::string &message);
         void    sendClientToChannel(Client &sender, const std::string &ChannelName, const std::string &message);
 
+        // Commands 
+      
+        void Pass(class Client &, std::vector<std::string>);
+        void Nick(class Client &, std::vector<std::string>);
+        void User(class Client &, std::vector<std::string>);
+        void Join(class Client &, std::vector<std::string>);
+        void Mode(class Client &, std::vector<std::string>);
+    
+    // void Topic(class Client &, std::vector<std::string>);
+    // void Names(class Client &, std::vector< std::string>);
+    
+    // void PrivMsg(class Client &, std::vector< std::string>);
+    // void Notice(class Client &, std::vector< std::string>);
+    
+    // void Quit(class Client &, std::vector<std::string>);
+    // void Invite(class Client &, std::vector< std::string>);
+    // void Kick(class Client &, std::vector<std::string>);
+    
+    // void Ping(class Client &, std::vector<std::string>);
+    // void Part(class Client &, std::vector<std::string>);
+    // void List(class Client &, std::vector<std::string>);
+
+
+        bool    PasswordMatched(const std::string& Pass);
+        int     ParamsSizeControl(Client& client, const std::string& Command, std::vector<std::string> params, size_t necessary, size_t optional);
+        const   std::string &getPassword() const;
+        bool    InvalidLetter(const std::string &Nick);
+        bool    IsExistClient(const std::string &ClientName);
+        bool    IsExistChannel(const std::string &ChaName);
+        bool    IsInChannel(Client &client, const std::string &ChaName);
+        bool    IsChannelLimitFull(const std::string &ChaName);
+        bool    ChaKeyCheck(const std::string &ChaName);
 };

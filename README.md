@@ -1,2 +1,1 @@
-#buraya bakacaz'lara bak
-#pushlamayı unutma LUL
+# Mode'da kaldık devamını yap üşenme eşşeeeeeeeeeek

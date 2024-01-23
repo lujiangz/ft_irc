@@ -20,7 +20,7 @@ class Client
         std::string _realname;
         std::string _hostname;
         std::string _invChan;
-
+        std::map<std::string, Channel*> _channel;
         enum RegState _status;
         bool _online;
         

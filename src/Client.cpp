@@ -28,7 +28,7 @@ void    Client::checkHostname(sockaddr_in serverAddr)
 
     if (getnameinfo((struct sockaddr *) &serverAddr, sizeof(serverAddr), hostname, 1024, NULL, 0, NI_NUMERICSERV) != 0)
     {
-        std::cerr << "Error: failed to get client hostname!\n";
+        std::cerr << "Error: failed to get client hostname!"<< std::endl;
         return;
     }
     _hostname = std::string(hostname);
