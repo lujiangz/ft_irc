@@ -2,8 +2,9 @@
 
 void Server::Join(Client &client,std::vector<std::string> params)
 {
+
     if(client._status != UserReg)
-      return sendServerToClient(client,ERR_NOTREGISTERED(client._nick));
+        return sendServerToClient(client,ERR_NOTREGISTERED(client._nick));
     if (ParamsSizeControl(client, "JOIN", params, 1, 1) != 0)
         return;
 
@@ -38,7 +39,7 @@ void Server::Join(Client &client,std::vector<std::string> params)
     else
     {
        
-      if (client._channel.size() == 4)
+        if (client._channel.size() == 4)
             sendServerToClient(client,ERR_TOOMANYCHANNELS(client._nick, params[0]));
         else
         {

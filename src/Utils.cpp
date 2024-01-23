@@ -23,3 +23,15 @@ std::string ToLowercase(const std::string& Names)
     }
     return new_str;
 }
+
+bool InvalidPassword(const std::string &Password)
+{
+    if (Password.size() < 4 && Password.size() > 8)
+        return true;
+    for (size_t i = 0; i < Password.size() - 1; i++)
+    {
+        if (!isalnum(Password[i]))
+            return true;
+    }
+    return false;
+}

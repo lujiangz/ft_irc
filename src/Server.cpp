@@ -148,7 +148,7 @@ void    Server::readData(fd_set readfds)
             std::string cmd = msg.substr(0, msg.find(" "));
             std::string params = msg.substr(msg.find(" ") + 1);
            
-           runCommand(*it,msg);
+           runCommand(*it,msg);// buraya bakacaz hugg
         }
         ++it;
     }

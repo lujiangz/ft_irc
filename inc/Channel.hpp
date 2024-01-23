@@ -24,6 +24,8 @@ class Channel {
         unsigned int _userLimit;
 
         Channel(std::string chaName, class Client* owner);
-        void addMember(Client &client)
+        void addMember(Client &client);
         std::vector<class Client*>& getMembers();
+        bool    ChangeModeTwoParams(const std::string& ModeString);
+        bool    Channel::ChangeModeThreeParams(const std::string& ModeString, const std::string& ModeArg);
 };

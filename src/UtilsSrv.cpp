@@ -38,7 +38,7 @@ const std::string &Server::getPassword() const
     return _password;
 }
 
-bool InvalidLetter(const std::string &Nick)
+bool Server::InvalidLetter(const std::string &Nick)
 {
     if(Nick.empty())
         return false;
@@ -80,4 +80,19 @@ bool Server::IsChannelLimitFull(const std::string &ChaName)
 bool Server::ChaKeyCheck(const std::string &ChaName)
 {
     return !_channels.at(ChaName)->getKey().empty();
+}
+
+bool Server::IsOperator(Client &client, const std::string& ChaName)
+{
+    return _channels.at(ChaName)->getOperator()->_nick == client._nick;
+}
+
+enum Prefix Server::PrefixControl(std::string str)
+{
+    enum Prefix pre = PrefixClient;
+    if(!str.empty() && (str[0] == '@') && str[1] == '#')
+        pre = PrefixChannelOp;
+    else if(!str.empty() && str[0] == '#')
+        pre = PrefixChannel;
+    return pre;
 }

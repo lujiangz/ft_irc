@@ -14,6 +14,13 @@
 #include "../inc/Utils.hpp"
 #include "../inc/Channel.hpp"
 
+enum Prefix
+{
+    PrefixClient,
+    PrefixChannel,
+    PrefixChannelOp,
+}     
+
 class Server
 {
     private:
@@ -44,12 +51,12 @@ class Server
         void User(class Client &, std::vector<std::string>);
         void Join(class Client &, std::vector<std::string>);
         void Mode(class Client &, std::vector<std::string>);
+        void PrivMsg(class Client &, std::vector< std::string>);
     
+    // void Notice(class Client &, std::vector< std::string>);
+        
     // void Topic(class Client &, std::vector<std::string>);
     // void Names(class Client &, std::vector< std::string>);
-    
-    // void PrivMsg(class Client &, std::vector< std::string>);
-    // void Notice(class Client &, std::vector< std::string>);
     
     // void Quit(class Client &, std::vector<std::string>);
     // void Invite(class Client &, std::vector< std::string>);
@@ -69,4 +76,5 @@ class Server
         bool    IsInChannel(Client &client, const std::string &ChaName);
         bool    IsChannelLimitFull(const std::string &ChaName);
         bool    ChaKeyCheck(const std::string &ChaName);
+        enum    Prefix PrefixControl(std::string str);
 };
