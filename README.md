@@ -1,2 +1,2 @@
-# ft_irc
-irc miracle
+#buraya bakacaz'lara bak
+#pushlamayı unutma LUL
