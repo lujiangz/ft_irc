@@ -3,9 +3,9 @@
 void Server::User(Client &client, std::vector<std::string>params)
 {
     if (client._status < NickReg)
-        return sendServerToClient(client, ERR_NOTREGISTERED(client._nick));
+        return sendServerToClient(client, ERR_NOTREGISTERED(client._nickname));
     else if (client._status == UserReg)
-        return sendServerToClient(client, ERR_ALREADYREGISTERED(client._nick));
+        return sendServerToClient(client, ERR_ALREADYREGISTERED(client._nickname));
    
     if (ParamsSizeControl(client, "USER", params, 3, 2) != 0)  
         return;

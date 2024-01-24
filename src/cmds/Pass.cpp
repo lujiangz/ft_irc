@@ -13,9 +13,9 @@ void Server::Pass(Client &client, std::vector<std::string> params)
             std::cout << "Pass assigned" << std::endl;
         }
         else
-            sendServerToClient(client, ERR_PASSWDMISMATCH(client._nick));
+            sendServerToClient(client, ERR_PASSWDMISMATCH(client._nickname));
         break;
     default:
-        sendServerToClient(client, ERR_ALREADYREGISTERED(client._nick));
+        sendServerToClient(client, ERR_ALREADYREGISTERED(client._nickname));
     }
 }

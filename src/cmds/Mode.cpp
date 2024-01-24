@@ -13,7 +13,7 @@ const std::map<char, int> ModeMap()
 void Server::Mode(Client &client, std::vector<std::string> params)
 {
     if(client._status != UserReg)
-        return sendServerToClient(client,ERR_NOTREGISTERED(client._nick));
+        return sendServerToClient(client,ERR_NOTREGISTERED(client._nickname));
     if (ParamsSizeControl(client, "MODE", params, 1, 2) != 0)
         return;      
     size_t count = params.size();
@@ -27,27 +27,27 @@ void Server::Mode(Client &client, std::vector<std::string> params)
                 modestr += it->first;
         }
         if (count == 1)//test et
-            sendServerToClient(client, RPL_CHANNELMODEIS(client._nick, params[0], modestr));
+            sendServerToClient(client, RPL_CHANNELMODEIS(client._nickname, params[0], modestr));
         else if (IsOperator(client, params[0]))
         {
             if(count == 2)
             {
                 if (_channels.at(params[0])->ChangeModeTwoParams(params[1]))
-                   sendServerToChannel(params[0], MODE(client._nick, params[0], params[1], "")); 
+                   sendServerToChannel(params[0], MODE(client._nickname, params[0], params[1], "")); 
                 else
-                    sendServerToClient(client, ERR_UNKNOWNMODE(client._nick, params[1]));
+                    sendServerToClient(client, ERR_UNKNOWNMODE(client._nickname, params[1]));
             }
             else if(count == 3)
             {
                 if (_channels.at(params[0])->ChangeModeThreeParams(params[1], params[2]))
-                    sendServerToChannel(params[0], MODE(client._nick, params[0], params[1], params[2])); 
+                    sendServerToChannel(params[0], MODE(client._nickname, params[0], params[1], params[2])); 
                 else
-                    sendServerToClient(client, ERR_UNKNOWNMODE(client._nick, params[1]));
+                    sendServerToClient(client, ERR_UNKNOWNMODE(client._nickname, params[1]));
              }
         }
         else
-            sendServerToClient(client, ERR_CHANOPRIVSNEEDED(client._nick, client._channel.at(params[0])->_name));
+            sendServerToClient(client, ERR_CHANOPRIVSNEEDED(client._nickname, client._channel.at(params[0])->_chaName));
     }
     else
-        sendServerToClient(client, ERR_NOSUCHCHANNEL(client._nick, params[0]));
+        sendServerToClient(client, ERR_NOSUCHCHANNEL(client._nickname, params[0]));
 }

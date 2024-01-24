@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Server.hpp"
+#include "Channel.hpp"
 
 enum RegState
 {
@@ -26,6 +27,7 @@ class Client
         
         int getSocketFd() const;
         Client(int socketFd);
+        ~Client();
 
         void   checkHostname(sockaddr_in serverAddr);
 };

@@ -7,12 +7,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include "../inc/Client.hpp"
+#include "Client.hpp"
 #include <sys/types.h>
 #include <fcntl.h>
 #include <netdb.h>
-#include "../inc/Utils.hpp"
-#include "../inc/Channel.hpp"
+#include "Utils.hpp"
+#include "Channel.hpp"
+#include "Replies.hpp"
 
 enum Prefix
 {
@@ -37,9 +38,8 @@ class Server
         void    setSocket();
         void    serverRun();
         void    readData(fd_set readfds);
-        void    CmdMap();
         const   std::map<std::string, void (Server::*)(class Client &, std::vector<std::string>)> cmds;
-        void    runCommand(Client &client, std::string &msg);
+        void    runCommand(Client *client, std::string &msg);
         void    sendServerToClient(Client &reciever, const std::string &message);
         void    sendServerToChannel(const std::string &ChannelName, const std::string &message);
         void    sendClientToChannel(Client &sender, const std::string &ChannelName, const std::string &message);
@@ -58,9 +58,8 @@ class Server
         void Part(class Client &, std::vector<std::string>);
         void Invite(class Client &, std::vector< std::string>);
         void Kick(class Client &, std::vector<std::string>);
-    
-    // void Ping(class Client &, std::vector<std::string>);
-    // void List(class Client &, std::vector<std::string>);
+        void Ping(class Client &, std::vector<std::string>);
+        void List(class Client &, std::vector<std::string>);
 
 
         bool    PasswordMatched(const std::string& Pass);
@@ -73,6 +72,6 @@ class Server
         bool    IsChannelLimitFull(const std::string &ChaName);
         bool    ChaKeyCheck(const std::string &ChaName);
         enum    Prefix PrefixControl(std::string str);
-        Client  findClient(const std::string &NickName);
+        Client  &findClient(const std::string &NickName);
         bool    IsOperator(Client &client, const std::string& ChaName);
 };

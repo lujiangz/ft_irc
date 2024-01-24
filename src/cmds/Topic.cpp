@@ -1,9 +1,9 @@
 #include "../../inc/Server.hpp"
 
-void Topic(class Client &client, std::vector<std::string > params)
+void Server::Topic(class Client &client, std::vector<std::string > params)
 {
     if(client._status != UserReg)
-       return sendServerToClient(client,ERR_NOTREGISTERED(client._nickname));
+       return sendServerToClient(client, ERR_NOTREGISTERED(client._nickname));
     if (ParamsSizeControl(client, "TOPIC", params, 1, 10) != 0)  
         return;
     size_t count = params.size();

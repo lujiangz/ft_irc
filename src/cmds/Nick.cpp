@@ -25,7 +25,7 @@ void Server::Nick(Client &client, std::vector<std::string> params)
         sendServerToClient(client, ERR_NICKNAMEINUSE(params[0]));
     switch (client._status)
     {
-    case PassRegistered:
+    case PassReg:
         client._nickname = ToLowercase(params[0]);
         client._username = client._nickname;
         client._realname = client._nickname;

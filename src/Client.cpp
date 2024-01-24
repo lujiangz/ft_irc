@@ -1,15 +1,8 @@
 #include "../inc/Client.hpp"
 
-Client::Client(int socketFd)
+Client::Client(int clientSocket) : _nickname(""), _username(""), _realname(""), _hostname("unknown"), _invChan(""), _status(None) , _online(true)
 {
-    this->_socket = socketFd;
-    this->_nickname = "";
-    this->_username = "";
-    this->_realname = "";
-    this->_hostname = "";
-    this->_invChan = "";
-    this->_status = None;
-    this->_online = true;
+    _socket = clientSocket;
 }
 
 Client::~Client()

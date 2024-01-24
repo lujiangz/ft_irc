@@ -1,7 +1,8 @@
 #include "../inc/Server.hpp"
 
-void Server::CmdMap()
+const std::map<std::string, void (Server::*)(class Client &, std::vector<std::string>)> CmdMap()
 {
+    std::map<std::string, void (Server::*)(class Client &, std::vector<std::string>)> cmds;
     cmds["PASS"] = &Server::Pass;
     cmds["NICK"] = &Server::Nick;
     cmds["USER"] = &Server::User;
@@ -17,11 +18,11 @@ void Server::CmdMap()
     cmds["NOTICE"] = &Server::PrivMsg;
     cmds["PRIVMSG"] = &Server::PrivMsg;
     cmds["LIST"] = &Server::List;
+    return cmds;
 }
 
-Server::Server(const std::string &Port, const std::string &Password)
+Server::Server(const std::string &Port, const std::string &Password) : cmds(CmdMap())
 {
-    CmdMap();
     this->_port = std::atoi(Port.c_str());
     this->_password = Password;
     this->_channels = std::map<std::string, class Channel*>();
@@ -119,41 +120,45 @@ void    Server::serverRun()
 
 void    Server::readData(fd_set readfds)
 {
-    for (std::vector<Client*>::iterator it = _clients.begin(); it != _clients.end(); it++)
+    std::vector<Client*>::iterator client = _clients.begin();
+    while (client != _clients.end())
     {
-        int socketFd = (*it)->getSocketFd();
-        if (FD_ISSET(socketFd, &readfds))
+        int clientSocket = (*client)->getSocketFd();
+        if ((*client)->_online == false)
+        {
+            close(clientSocket);
+            Client* dead = *client;
+            client = _clients.erase(client);
+            delete dead;
+            continue;
+        }
+        if (FD_ISSET(clientSocket, &readfds))
         {
             char buffer[1024];
             memset(buffer, 0, sizeof(buffer));
-            int readSize = recv(socketFd, buffer, 1023, 0);
-            if (readSize == 0)
-            {
-                std::cout << "Client disconnected" << socketFd << std::endl;
-                (*it)->_online = false;
-                // Quit
-                continue;
-            }
-            if (readSize == -1)
-            {
-                std::cerr << "Error: recv failed" << std::endl;
-                                // Quit
 
+            int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+            if (bytesRead == 0)
+            {
+                std::cout << "Client disconnected. Socket descriptor: " << clientSocket << "\n";
+                Quit(**client, std::vector<std::string>());
                 continue;
             }
-            buffer[readSize] = '\0';
-            std::string msg(buffer);
-            std::cout << "Received: " << msg << std::endl;
-            std::string cmd = msg.substr(0, msg.find(" "));
-            std::string params = msg.substr(msg.find(" ") + 1);
-           
-           runCommand(*it,msg);// buraya bakacaz hugg
+            if (bytesRead == -1)
+            {
+                std::cerr << "Failed to read from client socket.\n";
+                Quit(**client, std::vector<std::string>());
+                continue;
+            }
+            std::string message(buffer, bytesRead);
+            std::cout << "Received data from client: " << message << "\n";
+            runCommand(*client, message);
         }
-        ++it;
+        ++client;
     }
 }
 
-void    Server::runCommand(Client &client, std::string &msg)
+void    Server::runCommand(Client *client, std::string &msg)
 {
     std::vector<std::string> str = split(msg,"\r\n");
     for(std::vector<std::string>::iterator it = str.begin(); it != str.end()-1; ++it)
@@ -213,4 +218,9 @@ void Server::sendClientToChannel(Client &sender, const std::string &ChannelName,
             }
         }
     }
+}
+
+Server::~Server()
+{
+
 }

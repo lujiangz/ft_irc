@@ -1,6 +1,6 @@
-#include "../../inc/Server.hpp"
+#include "../inc/Server.hpp"
 
-Channel::Channel(std::string chaName, class Client* owner)
+Channel::Channel(std::string chaName, class Client& owner)
 {
     _owner = &owner;
     _key = "";
@@ -24,12 +24,12 @@ std::vector<class Client*>& Channel::getMembers()
 
 const std::string &Channel::getKey() const
 {
-    return _key;
+    return this->_key;
 }
 
 void Channel::setKey(const std::string &key)
 {
-    _key = key;
+    this->_key = key;
 }
 
 Client  *Channel::getOperator() const
@@ -42,7 +42,7 @@ bool Channel::ChangeModeTwoParams(const std::string& ModeString)
     if (ModeString == "+i" || ModeString == "-i")
     {
         if (ModeString[0] == '+')
-            _mode = InviteOnly//invite only
+            _mode = InviteOnly;//invite only
         else if (ModeString[0] == '-')
             _mode = -InviteOnly;
     }
@@ -77,11 +77,11 @@ bool Channel::ChangeModeThreeParams(const std::string& ModeString, const std::st
 
 void Channel::removeMember(Client &client)
 {
-    for(std::vector<Client*>::iterator it = _members.begin(); it != _members.end(); it++)
+    for(std::vector<Client*>::iterator it = _users.begin(); it != _users.end(); it++)
     {
         if((*it)->_nickname == client._nickname)
         {
-            _members.erase(it);
+            _users.erase(it);
             break;
         }
     }
