@@ -1,7 +1,7 @@
 NAME = ircserv
 
-CC = g++
-FLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
+CC = c++
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRC = $(wildcard ./src/*.cpp ./src/cmds/*.cpp)
 

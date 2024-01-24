@@ -1,8 +1,5 @@
 #pragma once
 
-
-//----COMMAND_MESSAGES
-#define CAP_LS ":ircserv CAP * LS :"
 #define NICK(OldNick, NewNick) ":" + OldNick + " NICK " + NewNick
 #define MODE(FromWho, ChanName, ModeStr, Target) ":" + FromWho + " MODE " + ChanName + " " + ModeStr + " " + Target
 #define PRIVMSG(FromWho, To, Message) ":" + FromWho + " PRIVMSG " + To + " :" + Message
@@ -11,15 +8,6 @@
 #define KICK(Nick, ChanName, KickedNick) ":" + Nick + " KICK " + ChanName + " " + KickedNick
 #define PART(Nick, ChanName) ":" + Nick + " PART " + ChanName
 #define QUIT(Nick, Reason) ":" + Nick + " QUIT :Quit: " + Reason
-
-//----REPLIES
-#define RPL_WELCOME(Nick, UserName) ":ircserv 001 " + Nick + " :Welcome to ircserv, " + Nick + "!" + UserName + "" 
-
-#define TOKENS "CASEMAPPING=ascii, CHANLIMIT=#:4, CHANMODES=b,i,k,l,o,t, PREFIX=(o)@, TARGMAX=NAMES:1,LIST:1,KICK:1,JOIN:1,PRIVMSG:1,NOTICE:1,PART:0,QUIT:0, TOPICLEN=254"
-
-#define RPL_ISUPPORT(Nick)  ":ircserv 005 " + Nick + " " + TOKENS + " :are supported by this server"
-
-//RPL_LISTSTART (321) "<client> Channel :Users  Name"
 
 #define RPL_LIST(Nick, ChanName, ChanCount, Topic) ":ircserv 322 " + Nick + " " + ChanName + " " + ChanCount + " :" + Topic
 
@@ -31,25 +19,12 @@
 
 #define RPL_TOPIC(Nick, ChanName, Topic) ":ircserv 332 " + Nick + " " + ChanName + " :" + Topic
 
-//#define RPL_TOPICWHOTIME(Nick, ChanName, TopicSetterNick, TimeStamp) ":ircserv 333 " + Nick + " " + ChanName + " " + TopicSetterNick + " " + TimeStamp
-
-//RPL_INVITELIST (336) "<client> <channel>"
-
-//RPL_ENDOFINVITELIST (337) "<client> :End of /INVITE list"
-
 #define RPL_INVITING(Nick, InvitedNick, ChanName) ":ircserv 341 " + Nick + " " + InvitedNick + " " + ChanName
 
 #define RPL_NAMREPLY(Nick, ChanName, PrefixNickList) ":ircserv 353 " + Nick + " = " + ChanName + " :" + PrefixNickList
 
 #define RPL_ENDOFNAMES(Nick, ChanName) ":ircserv 366 " + Nick + " " + ChanName + " :End of /NAMES list"
 
-#define RPL_BANLIST(Nick, ChanName, Mask) ":ircserv 367 " + Nick + " " + ChanName + " " + Mask
-
-#define RPL_ENDOFBANLIST(Nick, ChanName) ":ircserv 368 " + Nick + " " + ChanName + " :End of channel ban list"
-
-//#define RPL_WHOISMODES(Nicki, Modes) ":ircserv 379 " + Nick + " :is using modes " + Modes 
-
-//----ERRORS
 #define ERR_UNKNOWNERROR(Nick, Command, Message) ":ircserv 400 " + Nick + " " + Command + " :" + Message
 
 #define ERR_NOSUCHNICK(Nick, Nickname) ":ircserv 401 " + Nick + " " + Nickname + " :No such nick"
@@ -63,10 +38,6 @@
 #define ERR_NORECIPIENT(Nick, Command) ":ircserv 411 " + Nick + " " + ":No recipient given (" + Command + ")"
 
 #define ERR_NOTEXTTOSEND(Nick) ":ircserv 412 " + Nick + " " + ":No text to send"
-
-//#define ERR_INPUTTOOLONG(Nick) ":ircserv 417 " + Nick + " " + ":Input line was too long"
-
-//#define ERR_UNKNOWNCOMMAND(Nick, Command) ":ircserv 421 " + Nick + " " + Command + " :Unknown command"
 
 #define ERR_NONICKNAMEGIVEN(Nick) ":ircserv 431 " + Nick + " " + ":No nickname given"
 
@@ -88,20 +59,12 @@
 
 #define ERR_PASSWDMISMATCH(Nick) ":ircserv 464 " + Nick + " " +  ":Password incorrect"
 
-//#define ERR_YOUREBANNEDCREEP(Nick) ":ircserv 462 " + Nick + " " +  ":You banned from this server"
-
 #define ERR_CHANNELISFULL(Nick, ChanName) ":ircserv 471 " + Nick + " " + ChanName + " :Cannot join channel (+l)"
 
 #define ERR_UNKNOWNMODE(Nick, ModeChar) ":ircserv 472 " + Nick + " " + ModeChar + " :is unknown mode char to me"
 
 #define ERR_INVITEONLYCHAN(Nick, ChanName) ":ircserv 473 " + Nick + " " + ChanName + " :Cannot join channel (+i)"
 
-#define ERR_BANNEDFROMCHAN(Nick, ChanName) ":ircserv 474 " + Nick + " " + ChanName + " :Cannot join channel (+b)"
-
 #define ERR_BADCHANNELKEY(Nick, ChanName) ":ircserv 475 " + Nick + " " + ChanName + " :Cannot join channel (+k)"
 
 #define ERR_CHANOPRIVSNEEDED(Nick, ChanName) ":ircserv 482 " + Nick + " " + ChanName + " :You're not channel operator"
-
-//#define ERR_UMODEUNKNOWNFLAG(Nick, Modechar) ":ircserv 501 " + Nick + " " + ModeChar + " :Unknown MODE flag"
-
-//#define ERR_INVALIDKEY(Nick, ChanName) ":ircserv 525 " + Nick + " " + ChanName + " :Key is not well-formed"
