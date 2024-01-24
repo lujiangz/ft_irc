@@ -7,6 +7,13 @@ void signalFunction(int sig)
     exit(0);
 }
 
+bool    passCheck(std::string pass)
+{
+    if(pass.length() < 1 || pass.length() > 9)
+        return 0;
+    return 1;
+}
+
 bool    portCheck(std::string port)
 {
     size_t porttemp = std::atoi(port.c_str());
@@ -26,6 +33,11 @@ int main(int argc,char **argv)
     if (!portCheck(argv[1]))
     {
         std::cerr << "Port must be between 1024 and 49151" << std::endl;
+        return 1;
+    }
+    if(!passCheck(argv[2]))
+    {
+        std::cerr << "Password must be between 1 and 9 characters" << std::endl;
         return 1;
     }
     signal(SIGINT, signalFunction);
