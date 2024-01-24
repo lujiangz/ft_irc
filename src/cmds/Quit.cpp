@@ -2,6 +2,7 @@
 
 void Server::Quit(Client &client, std::vector<std::string>)
 {
+    client._online = false;
     if(client._status != UserReg)
         return sendServerToClient(client,ERR_NOTREGISTERED(client._nickname));
         
@@ -15,6 +16,4 @@ void Server::Quit(Client &client, std::vector<std::string>)
         par.push_back(*it);
         Part(client, par);
     }
-    // make client offline
-    client._online = false;
 }
