@@ -6,6 +6,7 @@ void Server::Kick(Client &client, std::vector<std::string> params)
         return sendServerToClient(client,ERR_NOTREGISTERED(client._nickname));
     if (ParamsSizeControl(client, "KICK", params, 2, 0) != 0)
         return;
+
     if(IsExistChannel(params[0]) && IsExistClient(params[1]) && IsInChannel(client, params[0]) && IsOperator(client, params[0]))
     {
         Client &kicked = findClient(params[1]);

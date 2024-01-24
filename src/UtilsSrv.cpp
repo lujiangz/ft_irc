@@ -16,6 +16,7 @@ int Server::ParamsSizeControl(Client& client, const std::string& Command, std::v
             break;
         }
     }
+
     if (err == -1){
 
         if (Command == "NICK")
