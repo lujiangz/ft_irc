@@ -19,12 +19,12 @@ int Server::ParamsSizeControl(Client& client, const std::string& Command, std::v
     if (err == -1){
 
         if (Command == "NICK")
-            sendServerToClient(client, ERR_NONICKNAMEGIVEN(client._nick));
+            sendServerToClient(client, ERR_NONICKNAMEGIVEN(client._nickname));
         else
-            sendServerToClient(client, ERR_NEEDMOREPARAMS(client._nick, Command));
+            sendServerToClient(client, ERR_NEEDMOREPARAMS(client._nickname, Command));
     }
     else if (err == 1)
-        sendServerToClient(client, ERR_UNKNOWNERROR(client._nick, Command, "Excessive argument is given"));
+        sendServerToClient(client, ERR_UNKNOWNERROR(client._nickname, Command, "Excessive argument is given"));
     return err;
 }
 
@@ -55,7 +55,7 @@ bool Server::IsExistClient(const std::string &ClientName)
 {
     for (std::vector<Client*>::iterator it = _clients.begin(); it != _clients.end(); it++)
     {
-        if ((*it)->_nick == ClientName)
+        if ((*it)->_nickname == ClientName)
             return true;
     }
     return false;
@@ -84,7 +84,7 @@ bool Server::ChaKeyCheck(const std::string &ChaName)
 
 bool Server::IsOperator(Client &client, const std::string& ChaName)
 {
-    return _channels.at(ChaName)->getOperator()->_nick == client._nick;
+    return this->_channels.at(ChaName)->getOperator()->_nickname == client._nickname;
 }
 
 enum Prefix Server::PrefixControl(std::string str)
@@ -95,4 +95,14 @@ enum Prefix Server::PrefixControl(std::string str)
     else if(!str.empty() && str[0] == '#')
         pre = PrefixChannel;
     return pre;
+}
+
+Client &Server::findClient(const std::string &NickName)
+{
+    for (std::vector<Client*>::iterator it = _clients.begin(); it != _clients.end(); it++)
+    { 
+        if ((*it)->_nickname == NickName)
+            return (**it);
+    }
+    return *_clients[-1];
 }

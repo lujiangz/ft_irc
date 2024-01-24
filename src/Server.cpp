@@ -14,13 +14,12 @@ void Server::CmdMap()
     cmds["INVITE"] = &Server::Invite;
     cmds["MODE"] = &Server::Mode;
     cmds["KICK"] = &Server::Kick;
-    cmds["NOTICE"] = &Server::Notice;
+    cmds["NOTICE"] = &Server::PrivMsg;
     cmds["PRIVMSG"] = &Server::PrivMsg;
     cmds["LIST"] = &Server::List;
-    // buraya bakacaz
 }
 
-Server::Server(const std::string &Port, const std::string &Password) : 
+Server::Server(const std::string &Port, const std::string &Password)
 {
     CmdMap();
     this->_port = std::atoi(Port.c_str());
@@ -189,7 +188,7 @@ void Server::sendServerToChannel(const std::string &ChannelName, const std::stri
     {
         if (send((*client)->getSocketFd(), formattedMessage.c_str(), formattedMessage.length(), 0) == -1)
         {
-            std::cerr << "Failed to send chat message between " << ChannelName << " -> " << (*client)->_nick << std::endl;
+            std::cerr << "Failed to send chat message between " << ChannelName << " -> " << (*client)->_nickname << std::endl;
             continue;
         }
     }

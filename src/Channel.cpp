@@ -74,3 +74,21 @@ bool Channel::ChangeModeThreeParams(const std::string& ModeString, const std::st
         return false;
     return true;
 }
+
+void Channel::removeMember(Client &client)
+{
+    for(std::vector<Client*>::iterator it = _members.begin(); it != _members.end(); it++)
+    {
+        if((*it)->_nickname == client._nickname)
+        {
+            _members.erase(it);
+            break;
+        }
+    }
+    client._channel.erase(_chaName);
+}
+
+void Channel::setOperator(Client *client)
+{
+    _owner = client;
+}

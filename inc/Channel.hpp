@@ -28,4 +28,8 @@ class Channel {
         std::vector<class Client*>& getMembers();
         bool    ChangeModeTwoParams(const std::string& ModeString);
         bool    Channel::ChangeModeThreeParams(const std::string& ModeString, const std::string& ModeArg);
+        Client  *getOperator() const;
+        void    removeMember(Client &client);
+        void    setOperator(Client *client);
+
 };

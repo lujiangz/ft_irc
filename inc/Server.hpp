@@ -19,7 +19,7 @@ enum Prefix
     PrefixClient,
     PrefixChannel,
     PrefixChannelOp,
-}     
+};
 
 class Server
 {
@@ -52,18 +52,14 @@ class Server
         void Join(class Client &, std::vector<std::string>);
         void Mode(class Client &, std::vector<std::string>);
         void PrivMsg(class Client &, std::vector< std::string>);
-    
-    // void Notice(class Client &, std::vector< std::string>);
-        
-    // void Topic(class Client &, std::vector<std::string>);
-    // void Names(class Client &, std::vector< std::string>);
-    
-    // void Quit(class Client &, std::vector<std::string>);
-    // void Invite(class Client &, std::vector< std::string>);
-    // void Kick(class Client &, std::vector<std::string>);
+        void Topic(class Client &, std::vector<std::string>);
+        void Names(class Client &, std::vector< std::string>);
+        void Quit(class Client &, std::vector<std::string>);
+        void Part(class Client &, std::vector<std::string>);
+        void Invite(class Client &, std::vector< std::string>);
+        void Kick(class Client &, std::vector<std::string>);
     
     // void Ping(class Client &, std::vector<std::string>);
-    // void Part(class Client &, std::vector<std::string>);
     // void List(class Client &, std::vector<std::string>);
 
 
@@ -77,4 +73,6 @@ class Server
         bool    IsChannelLimitFull(const std::string &ChaName);
         bool    ChaKeyCheck(const std::string &ChaName);
         enum    Prefix PrefixControl(std::string str);
+        Client  findClient(const std::string &NickName);
+        bool    IsOperator(Client &client, const std::string& ChaName);
 };
