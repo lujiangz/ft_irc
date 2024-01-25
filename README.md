@@ -1,1 +1,1 @@
-# Mode'da kaldık devamını yap üşenme eşşeeeeeeeeeek
+# 100/100
